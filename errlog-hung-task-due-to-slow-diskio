@@ -1,0 +1,641 @@
+[237248.117491] EXT4-fs error (device nvme0n1p2) in ext4_reserve_inode_write:5606: Out of memory
+[237248.149561] EXT4-fs error (device nvme0n1p2) in ext4_reserve_inode_write:5606: Out of memory
+[237248.169598] EXT4-fs error (device nvme0n1p2) in ext4_reserve_inode_write:5606: Out of memory
+[237248.181678] EXT4-fs error (device nvme0n1p2) in ext4_reserve_inode_write:5606: Out of memory
+[237248.204746] EXT4-fs error (device nvme0n1p2) in ext4_reserve_inode_write:5606: Out of memory
+[237248.239066] EXT4-fs error (device nvme0n1p2) in ext4_reserve_inode_write:5606: Out of memory
+[237248.269598] EXT4-fs error (device nvme0n1p2) in ext4_reserve_inode_write:5606: Out of memory
+[237248.291385] EXT4-fs error (device nvme0n1p2) in ext4_reserve_inode_write:5606: Out of memory
+[237248.306767] EXT4-fs error (device nvme0n1p2) in ext4_reserve_inode_write:5606: Out of memory
+[237248.325614] EXT4-fs error (device nvme0n1p2) in ext4_reserve_inode_write:5606: Out of memory
+[237248.665875] EXT4-fs (nvme0n1p2): Delayed block allocation failed for inode 10486018 at logical offset 465 with max blocks 1 with error 117
+[237248.682320] EXT4-fs (nvme0n1p2): This should not happen!! Data will be lost
+
+[237253.115179] jbd2_journal_bmap: journal block not found at offset 121735 on nvme0n1p2-8
+[237253.119668] Aborting journal on device nvme0n1p2-8.
+[237253.130085] EXT4-fs error (device nvme0n1p2): ext4_journal_check_start:56: Detected aborted journal
+[237253.135837] EXT4-fs (nvme0n1p2): Remounting filesystem read-only
+[237258.203207] EXT4-fs error: 181 callbacks suppressed
+[237258.203214] EXT4-fs error (device nvme0n1p2): ext4_map_blocks:572: inode #10485978: block 41980616: comm gcpcom: lblock 1 mapped to illegal pblock 41980616 (length 23)
+[237258.220130] EXT4-fs error (device nvme0n1p2): ext4_map_blocks:572: inode #10485978: block 41980617: comm gcpcom: lblock 2 mapped to illegal pblock 41980617 (length 22)
+[237258.235210] EXT4-fs error (device nvme0n1p2): ext4_map_blocks:572: inode #10485978: block 41980643: comm gcpcom: lblock 28 mapped to illegal pblock 41980643 (length 5)
+[237258.236037] EXT4-fs error (device nvme0n1p2): ext4_map_blocks:572: inode #10485978: block 41980617: comm gcpcom: lblock 2 mapped to illegal pblock 41980617 (length 1)
+[237258.266048] EXT4-fs error (device nvme0n1p2): ext4_map_blocks:572: inode #10485978: block 41980617: comm gcpcom: lblock 2 mapped to illegal pblock 41980617 (length 1)
+[237258.316840] EXT4-fs error (device nvme0n1p2): ext4_map_blocks:572: inode #10485975: block 41980052: comm gcpdog: lblock 0 mapped to illegal pblock 41980052 (length 3)
+[237258.329208] EXT4-fs error (device nvme0n1p2): ext4_map_blocks:572: inode #10485975: block 41980056: comm gcpdog: lblock 4 mapped to illegal pblock 41980056 (length 2)
+[237258.344118] EXT4-fs error (device nvme0n1p2): ext4_map_blocks:572: inode #10485975: block 41980052: comm gcpdog: lblock 0 mapped to illegal pblock 41980052 (length 1)
+[237258.358934] EXT4-fs error (device nvme0n1p2): ext4_map_blocks:572: inode #10485975: block 41980052: comm gcpdog: lblock 0 mapped to illegal pblock 41980052 (length 1)
+[237470.309658] swapper/0: page allocation failure: order:0, mode:0x2080020(GFP_ATOMIC)
+[237470.316912] CPU: 0 PID: 0 Comm: swapper/0 Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237470.325608] Hardware name: Amlogic (DT)
+[237470.330356] Call trace:
+[237470.335035] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237470.339711] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237470.344912] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237470.350275] [<ffffff8009201d7c>] warn_alloc+0x104/0x130
+[237470.355734] [<ffffff80092022b8>] __alloc_pages_nodemask+0x490/0xf60
+[237470.362263] [<ffffff8009202fc0>] __alloc_page_frag+0x150/0x170
+[237470.368325] [<ffffff8009a938e0>] __netdev_alloc_skb+0xd0/0x180
+[237470.374390] [<ffffff800964779c>] ngbe_clean_rx_irq+0x3c4/0x7c0
+[237470.380445] [<ffffff80096491b0>] ngbe_poll+0x5d0/0x870
+[237470.385784] [<ffffff8009aa841c>] net_rx_action+0x13c/0x500
+[237470.391498] [<ffffff80090812c8>] __do_softirq+0x148/0x668
+[237470.397115] [<ffffff80090b2274>] irq_exit+0xbc/0xc0
+[237470.402210] [<ffffff800912ea4c>] __handle_domain_irq+0x6c/0xc0
+[237470.408284] [<ffffff8009080fac>] gic_handle_irq+0x5c/0xb0
+[237470.413886] Exception stack(0xffffff800a463da0 to 0xffffff800a463ed0)
+[237470.420574] 3da0: 0000000000000000 ffffff800b4adc88 0000000000000000 00000040a2ea9000
+[237470.428508] 3dc0: 00000040a2ea9000 00ffffffffffffff 000005168e06c4fc ffffff80090e09fc
+[237470.436387] 3de0: ffffff800a48a8a0 ffffff800a463e30 0000000000000000 0000000000000000
+[237470.444274] 3e00: 0000000000000038 0000000000000002 0039757f6c981d00 ffffffffffffffff
+[237470.452167] 3e20: ffffff8009167cd0 0000004000069e20 0000000000000000 ffffff800a259000
+[237470.460050] 3e40: 0000000000000001 ffffff800a47e5a4 ffffff800a47e5c8 ffffff800a4219b8
+[237470.468127] 3e60: ffffff800a47e000 0000000000000001 ffffff800a6293e8 0000000000000000
+[237470.476086] 3e80: 0000000000000000 ffffff800a463ed0 ffffff8009085578 ffffff800a463ed0
+[237470.478831] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237470.478839] fb: osd rdma restart! 0x6001200
+[237470.494511] 3ea0: ffffff800908557c 0000000040000145 ffffff800a463ef0 ffffff800914387c
+[237470.502618] 3ec0: ffffffffffffffff ffffff8009085570
+[237470.507742] [<ffffff8009082934>] el1_irq+0xb4/0x12c
+[237470.512867] [<ffffff800908557c>] arch_cpu_idle+0x3c/0x250
+[237470.518509] [<ffffff8009c606a4>] default_idle_call+0x24/0x44
+[237470.524412] [<ffffff800910e508>] cpu_startup_entry+0x1a8/0x210
+[237470.530492] [<ffffff8009c59124>] rest_init+0x14c/0x160
+[237470.535826] [<ffffff800a1a0b54>] start_kernel+0x394/0x3ac
+[237470.541406] [<ffffff800a1a01e8>] __primary_switched+0x64/0x6c
+[237470.547344] Mem-Info:
+[237470.550713] active_anon:480878 inactive_anon:121683 isolated_anon:0
+                 active_file:6256 inactive_file:64664 isolated_file:0
+                 unevictable:0 dirty:5357 writeback:5411 unstable:0
+                 slab_reclaimable:13947 slab_unreclaimable:12305
+                 mapped:8223 shmem:2345 pagetables:1826 bounce:0
+                 [cma] driver:20564 anon:28359 file:6476 isolate:0 total:258048
+                 free:187912 free_pcp:106 free_cma:202123
+[237470.614141] Node 0 active_anon:1923512kB inactive_anon:486732kB active_file:25024kB inactive_file:258656kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:32892kB dirty:21428kB writeback:21644kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:62 all_unreclaimable? no
+[237470.642456] DMA free:751648kB min:7812kB low:11624kB high:15436kB active_anon:1923512kB inactive_anon:486732kB active_file:25024kB inactive_file:258656kB unevictable:0kB writepending:43072kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:55788kB slab_unreclaimable:49220kB kernel_stack:3888kB pagetables:7304kB bounce:0kB free_pcp:424kB local_pcp:0kB free_unmovable:0kB free_movable:0kB free_reclaimable:0kB free_highatomic:3344kB free_isolate:0kB free_cma:808492kB
+[237470.645665] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237470.645667] fb: osd rdma restart! 0x6001200
+[237470.702452] lowmem_reserve[]: 0 0 0
+[237470.706930] DMA: 17971*4kB (C) 14172*8kB (C) 10677*16kB (HC) 6786*32kB (HC) 2698*64kB (HC) 463*128kB (HC) 20*256kB (HC) 1*512kB (H) 1*1024kB (C) 0*2048kB 0*4096kB = 811836kB
+[237470.721703] 74226 total pagecache pages
+[237470.726319] 951 pages in swap cache
+[237470.730906] Swap cache stats: add 33481203, delete 33480252, find 16522000/19924228
+[237470.737734] Free swap  = 278819260kB
+[237470.742322] Total swap = 278847828kB
+[237470.746880] 983040 pages RAM
+[237470.751402] 0 pages HighMem/MovableOnly
+[237470.755968] 28724 pages reserved
+[237470.760533] 258048 pages cma reserved
+[237470.765342] ksoftirqd/0: page allocation failure: order:0, mode:0x2080020(GFP_ATOMIC)
+[237470.773134] CPU: 0 PID: 3 Comm: ksoftirqd/0 Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237470.781670] Hardware name: Amlogic (DT)
+[237470.786332] Call trace:
+[237470.790917] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237470.795526] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237470.800792] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237470.806141] [<ffffff8009201d7c>] warn_alloc+0x104/0x130
+[237470.811599] [<ffffff80092022b8>] __alloc_pages_nodemask+0x490/0xf60
+[237470.818134] [<ffffff8009202fc0>] __alloc_page_frag+0x150/0x170
+[237470.824200] [<ffffff8009a938e0>] __netdev_alloc_skb+0xd0/0x180
+[237470.830251] [<ffffff800964779c>] ngbe_clean_rx_irq+0x3c4/0x7c0
+[237470.836323] [<ffffff80096491b0>] ngbe_poll+0x5d0/0x870
+[237470.841693] [<ffffff8009aa841c>] net_rx_action+0x13c/0x500
+[237470.847411] [<ffffff80090812c8>] __do_softirq+0x148/0x668
+[237470.853049] [<ffffff80090b1ed0>] run_ksoftirqd+0x48/0xa8
+[237470.858582] [<ffffff80090da3f8>] smpboot_thread_fn+0x198/0x290
+[237470.864658] [<ffffff80090d5244>] kthread+0xf4/0xf8
+[237470.869672] [<ffffff80090831c0>] ret_from_fork+0x10/0x50
+[237470.875218] Mem-Info:
+[237470.879768] active_anon:480878 inactive_anon:121683 isolated_anon:0
+                 active_file:6256 inactive_file:64548 isolated_file:0
+                 unevictable:0 dirty:5357 writeback:5411 unstable:0
+                 slab_reclaimable:13947 slab_unreclaimable:12305
+                 mapped:8223 shmem:2345 pagetables:1826 bounce:0
+                 [cma] driver:20564 anon:28359 file:6476 isolate:0 total:258048
+                 free:188076 free_pcp:15 free_cma:202103
+[237470.949110] Node 0 active_anon:1923512kB inactive_anon:486732kB active_file:25024kB inactive_file:258192kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:32892kB dirty:21428kB writeback:21644kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:15 all_unreclaimable? no
+[237470.962652] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237470.962661] fb: osd rdma restart! 0x6001200
+[237470.989220] DMA free:752304kB min:7812kB low:11624kB high:15436kB active_anon:1923512kB inactive_anon:486732kB active_file:25024kB inactive_file:258192kB unevictable:0kB writepending:43072kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:55788kB slab_unreclaimable:49220kB kernel_stack:3888kB pagetables:7304kB bounce:0kB free_pcp:60kB local_pcp:0kB free_unmovable:0kB free_movable:1024kB free_reclaimable:0kB free_highatomic:3344kB free_isolate:0kB free_cma:808412kB
+[237471.042502] lowmem_reserve[]: 0 0 0
+[237471.047871] DMA: 18013*4kB (MC) 14269*8kB (MC) 10677*16kB (HC) 6786*32kB (HC) 2698*64kB (HC) 463*128kB (HC) 20*256kB (HC) 1*512kB (H) 1*1024kB (C) 0*2048kB 0*4096kB = 812780kB
+[237471.063535] 74077 total pagecache pages
+[237471.069138] 951 pages in swap cache
+[237471.074723] Swap cache stats: add 33481203, delete 33480252, find 16522000/19924228
+[237471.082644] Free swap  = 278819260kB
+[237471.088307] Total swap = 278847828kB
+[237471.093937] 983040 pages RAM
+[237471.099527] 0 pages HighMem/MovableOnly
+[237471.105105] 28724 pages reserved
+[237471.110664] 258048 pages cma reserved
+[237473.750366] cron invoked oom-killer: gfp_mask=0x27080c0(GFP_KERNEL_ACCOUNT|__GFP_ZERO|__GFP_NOTRACK), nodemask=0, order=2, oom_score_adj=0
+[237473.761767] cron cpuset=/ mems_allowed=0
+[237473.768126] CPU: 5 PID: 3799 Comm: cron Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237473.775003] Hardware name: Amlogic (DT)
+[237473.777796] Call trace:
+[237473.781011] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237473.786155] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237473.791233] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237473.796562] [<ffffff800926f1d8>] dump_header+0x74/0x380
+[237473.801910] [<ffffff80091faed0>] oom_kill_process+0x2c0/0x5c0
+[237473.807870] [<ffffff80091fb5c4>] out_of_memory+0x10c/0x3a0
+[237473.813660] [<ffffff8009202800>] __alloc_pages_nodemask+0x9d8/0xf60
+[237473.821070] [<ffffff80090a6a44>] copy_process.isra.8.part.9+0xe4/0x1858
+[237473.827102] [<ffffff80090a8354>] _do_fork+0xd4/0x748
+[237473.832210] [<ffffff80090a8b3c>] SyS_clone+0x4c/0x60
+[237473.837511] [<ffffff8009083240>] el0_svc_naked+0x34/0x38
+[237473.843479] Mem-Info:
+[237473.847658] active_anon:489782 inactive_anon:123871 isolated_anon:0
+                 active_file:6304 inactive_file:61528 isolated_file:28
+                 unevictable:0 dirty:14600 writeback:2248 unstable:0
+                 slab_reclaimable:13825 slab_unreclaimable:12304
+                 mapped:8275 shmem:2345 pagetables:1830 bounce:0
+                 [cma] driver:20564 anon:30923 file:10870 isolate:0 total:258048
+                 free:180079 free_pcp:72 free_cma:195130
+[237473.914141] Node 0 active_anon:1962904kB inactive_anon:496644kB active_file:25036kB inactive_file:245612kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:33056kB dirty:67148kB writeback:8996kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:181 all_unreclaimable? no
+[237473.943140] DMA free:712668kB min:7812kB low:11624kB high:15436kB active_anon:1964804kB inactive_anon:497144kB active_file:24908kB inactive_file:246960kB unevictable:0kB writepending:81508kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:54812kB slab_unreclaimable:49216kB kernel_stack:3888kB pagetables:7404kB bounce:0kB free_pcp:336kB local_pcp:0kB free_unmovable:0kB free_movable:136kB free_reclaimable:4kB free_highatomic:0kB free_isolate:0kB free_cma:772756kB
+[237473.995706] lowmem_reserve[]: 0 0 0
+[237474.001093] DMA: 16978*4kB (C) 13450*8kB (C) 10150*16kB (C) 6435*32kB (C) 2553*64kB (C) 441*128kB (C) 16*256kB (C) 0*512kB 1*1024kB (C) 0*2048kB 0*4096kB = 768792kB
+[237474.015541] 71179 total pagecache pages
+[237474.020511] 951 pages in swap cache
+[237474.025292] Swap cache stats: add 33481203, delete 33480252, find 16522001/19924229
+[237474.032346] Free swap  = 278819260kB
+[237474.037082] Total swap = 278847828kB
+[237474.042462] 983040 pages RAM
+[237474.047461] 0 pages HighMem/MovableOnly
+[237474.051929] 28724 pages reserved
+[237474.077475] 258048 pages cma reserved
+[237474.083356] [ pid ]   uid  tgid total_vm      rss nr_ptes nr_pmds swapents oom_score_adj name
+[237474.091502] [ 3366]     0  3366     4785      327       8       3      311         -1000 systemd-udevd
+[237474.115972] [ 3596]     0  3596     2579       86       5       3       10             0 htiod
+[237474.124787] [ 3650]     0  3650   309686     3834      33       5      320             0 process-exporte
+[237474.149342] [ 3653]     0  3653    78724        0      23       5      412             0 ModemManager
+[237474.161469] [ 3724]     0  3724     3757      165      11       3      214             0 systemd-logind
+[237474.170708] [ 3743]   114  3743   457218     5356      89       5     1353             0 prometheus-node
+[237474.179428] [ 3771]   104  3771     1866      319       8       3      108          -900 dbus-daemon
+[237474.189019] [ 3786]     0  3786     3101       72      10       3      140             0 wpa_supplicant
+[237474.198299] [ 3799]     0  3799     1654      122       6       4       41             0 cron
+[237474.206978] [ 3948]   113  3948   530452        0      47       6     1631             0 polkitd
+[237474.216007] [ 3957]     0  3957     3024        0       9       3      220         -1000 sshd
+[237474.224523] [ 4019]     0  4019      583        0       5       3       29             0 agetty
+[237474.233563] [ 4068]     0  4068     1310        0       6       4       33             0 agetty
+[237474.242002] [24487]     0 24487    12402      392      29       4      215             0 systemd-journal
+[237474.252287] [11659]     0 11659     3604      194      10       4      259             0 sshd
+[237474.260364] [11683]     0 11683     4261      236      11       4      317             0 systemd
+[237474.269505] [11692]     0 11692    41856       14      18       3      648             0 (sd-pam)
+[237474.278469] [11750]     0 11750     1782      559       8       4       70             0 bash
+[237474.287238] [12564]     0 12564     1716      768       7       3        0             0 stresstest-all-
+[237474.296919] [12570]     0 12570      603      337       5       4        0             0 sar
+[237474.305449] [12571]     0 12571      603      348       5       4        0             0 sar
+[237474.314189] [12572]     0 12572      603      349       5       4        0             0 sar
+[237474.321645] [12573]     0 12573      603      356       5       4        0             0 sar
+[237474.331507] [12574]     0 12574     1716      500       7       3        0             0 stresstest-all-
+[237474.341202] [12576]     0 12576     1716      500       7       3        0             0 stresstest-all-
+[237474.350840] [12578]     0 12578     3507      620       8       3        0         -1000 stress-ng
+[237474.360051] [12580]     0 12580      839      385       5       4        0             0 sadc
+[237474.368648] [12579]     0 12579      839      396       6       3        0             0 sadc
+[237474.377515] [12581]     0 12581    59282     1203      20       3        0             0 fio
+[237474.387243] [12582]     0 12582    59279     1202      20       3        0             0 fio
+[237474.395240] [12584]     0 12584      839      384       6       3        0             0 sadc
+[237474.405121] [12585]     0 12585    59279     1205      21       3        0             0 fio
+[237474.412437] [12586]     0 12586      839      394       6       4        0             0 sadc
+[237474.421289] [12587]     0 12587    59286     1212      20       3        0             0 fio
+[237474.430400] [12590]     0 12590     3508      449       9       3        0         -1000 stress-ng-vm
+[237474.439799] [12591]     0 12591     3508      434       9       3        0         -1000 stress-ng-vm
+[237474.450354] [12592]     0 12592     3508      434       9       3        0         -1000 stress-ng-vm
+[237474.457694] [12593]     0 12593     3508      434       9       3        0         -1000 stress-ng-vm
+[237474.467270] [12594]     0 12594   200117   154467     311       4        0          1000 stress-ng-vm
+[237474.476502] [12595]     0 12595   200117   180867     363       4        0          1000 stress-ng-vm
+[237474.485995] [12596]     0 12596   200117   134469     272       4        0          1000 stress-ng-vm
+[237474.495461] [12597]     0 12597   200117   124536     253       4        0          1000 stress-ng-vm
+[237474.504829] [12630]     0 12630    43097      716      13       3        0             0 fio
+[237474.513565] [12631]     0 12631    43098      723      13       3        0             0 fio
+[237474.522201] [12632]     0 12632    43099      722      13       3        0             0 fio
+[237474.530965] [12633]     0 12633    43100      723      13       3        0             0 fio
+[237474.538548] [12634]     0 12634    51140     8631      31       3        0             0 fio
+[237474.548116] [12635]     0 12635    51140     8763      30       3        0             0 fio
+[237474.556756] [12739]     0 12739     2054      541       7       4       15             0 cron
+[237474.565362] Out of memory: Kill process 12595 (stress-ng-vm) score 1002 or sacrifice child
+[237474.573819] Killed process 12595 (stress-ng-vm) total-vm:800468kB, anon-rss:721972kB, file-rss:1468kB, shmem-rss:28kB
+[237474.697827] oom_reaper: reaped process 12595 (stress-ng-vm), now anon-rss:0kB, file-rss:0kB, shmem-rss:28kB
+[237499.445051] swapper/0: page allocation failure: order:0, mode:0x2080020(GFP_ATOMIC)
+[237499.450741] CPU: 0 PID: 0 Comm: swapper/0 Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237499.459233] Hardware name: Amlogic (DT)
+[237499.463266] Call trace:
+[237499.466094] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237499.471393] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237499.476677] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237499.481999] [<ffffff8009201d7c>] warn_alloc+0x104/0x130
+[237499.487417] [<ffffff80092022b8>] __alloc_pages_nodemask+0x490/0xf60
+[237499.493953] [<ffffff8009202fc0>] __alloc_page_frag+0x150/0x170
+[237499.500025] [<ffffff8009a938e0>] __netdev_alloc_skb+0xd0/0x180
+[237499.506092] [<ffffff800964779c>] ngbe_clean_rx_irq+0x3c4/0x7c0
+[237499.512158] [<ffffff80096491b0>] ngbe_poll+0x5d0/0x870
+[237499.517533] [<ffffff8009aa841c>] net_rx_action+0x13c/0x500
+[237499.523216] [<ffffff80090812c8>] __do_softirq+0x148/0x668
+[237499.528802] [<ffffff80090b2274>] irq_exit+0xbc/0xc0
+[237499.533899] [<ffffff800912ea4c>] __handle_domain_irq+0x6c/0xc0
+[237499.539973] [<ffffff8009080fac>] gic_handle_irq+0x5c/0xb0
+[237499.545597] Exception stack(0xffffff800a463da0 to 0xffffff800a463ed0)
+[237499.552304] 3da0: 0000000000000000 ffffff800b4adc88 0000000000000000 00000040a2ea9000
+[237499.560410] 3dc0: 00000040a2ea9000 00ffffffffffffff 0000052f217b8134 ffffff80090e09fc
+[237499.568477] 3de0: ffffff800a48a8a0 ffffff800a463e30 0000000000000000 ffffffc0ad2c6df0
+[237499.576547] 3e00: 0000000000000001 000000003b226f28 0000000000000001 0000000000000001
+[237499.584625] 3e20: ffffff8009167cd0 0000000000000000 0000000000000040 ffffff800a259000
+[237499.592688] 3e40: 0000000000000001 ffffff800a47e5a4 ffffff800a47e5c8 ffffff800a4219b8
+[237499.600771] 3e60: ffffff800a47e000 0000000000000001 ffffff800a6293e8 0000000000000000
+[237499.608852] 3e80: 0000000000000000 ffffff800a463ed0 ffffff8009085578 ffffff800a463ed0
+[237499.616944] 3ea0: ffffff800908557c 0000000040000145 ffffff800a463ef0 ffffff800914387c
+[237499.624672] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237499.624689] fb: osd rdma restart! 0x6001200
+[237499.635504] 3ec0: ffffffffffffffff ffffff8009085570
+[237499.640642] [<ffffff8009082934>] el1_irq+0xb4/0x12c
+[237499.645761] [<ffffff800908557c>] arch_cpu_idle+0x3c/0x250
+[237499.651395] [<ffffff8009c606a4>] default_idle_call+0x24/0x44
+[237499.657299] [<ffffff800910e508>] cpu_startup_entry+0x1a8/0x210
+[237499.663392] [<ffffff8009c59124>] rest_init+0x14c/0x160
+[237499.668789] [<ffffff800a1a0b54>] start_kernel+0x394/0x3ac
+[237499.674449] [<ffffff800a1a01e8>] __primary_switched+0x64/0x6c
+[237499.680433] Mem-Info:
+[237499.683375] active_anon:514588 inactive_anon:53771 isolated_anon:0
+                 active_file:6282 inactive_file:93861 isolated_file:0
+                 unevictable:0 dirty:749 writeback:5385 unstable:0
+                 slab_reclaimable:14604 slab_unreclaimable:12344
+                 mapped:8620 shmem:2345 pagetables:2140 bounce:0
+                 [cma] driver:20564 anon:14032 file:16100 isolate:0 total:258048
+                 free:191745 free_pcp:171 free_cma:206812
+[237499.744733] Node 0 active_anon:2058352kB inactive_anon:215084kB active_file:25128kB inactive_file:375444kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:34480kB dirty:2996kB writeback:20516kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:1996 all_unreclaimable? no
+[237499.772147] DMA free:766980kB min:7812kB low:11624kB high:15436kB active_anon:2058352kB inactive_anon:215084kB active_file:25128kB inactive_file:375444kB unevictable:0kB writepending:23512kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:58416kB slab_unreclaimable:49376kB kernel_stack:4080kB pagetables:8560kB bounce:0kB free_pcp:684kB local_pcp:0kB free_unmovable:0kB free_movable:0kB free_reclaimable:0kB free_highatomic:0kB free_isolate:0kB free_cma:827248kB
+[237499.791512] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237499.791517] fb: osd rdma restart! 0x6001200
+[237499.830247] lowmem_reserve[]: 0 0 0
+[237499.834562] DMA: 3724*4kB (C) 2038*8kB (C) 1565*16kB (C) 1182*32kB (C) 960*64kB (C) 940*128kB (C) 694*256kB (C) 376*512kB (C) 129*1024kB (C) 24*2048kB (C) 0*4096kB = 827248kB
+[237499.849865] 103473 total pagecache pages
+[237499.854456] 955 pages in swap cache
+[237499.859024] Swap cache stats: add 33481214, delete 33480259, find 16522062/19924301
+[237499.865954] Free swap  = 278819288kB
+[237499.870644] Total swap = 278847828kB
+[237499.875343] 983040 pages RAM
+[237499.880039] 0 pages HighMem/MovableOnly
+[237499.884768] 28724 pages reserved
+[237499.889486] 258048 pages cma reserved
+[237499.894371] ksoftirqd/0: page allocation failure: order:0, mode:0x2080020(GFP_ATOMIC)
+[237499.902020] CPU: 0 PID: 3 Comm: ksoftirqd/0 Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237499.910587] Hardware name: Amlogic (DT)
+[237499.915187] Call trace:
+[237499.919714] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237499.924258] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237499.929527] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237499.934875] [<ffffff8009201d7c>] warn_alloc+0x104/0x130
+[237499.940331] [<ffffff80092022b8>] __alloc_pages_nodemask+0x490/0xf60
+[237499.946875] [<ffffff8009202fc0>] __alloc_page_frag+0x150/0x170
+[237499.952941] [<ffffff8009a938e0>] __netdev_alloc_skb+0xd0/0x180
+[237499.958991] [<ffffff800964779c>] ngbe_clean_rx_irq+0x3c4/0x7c0
+[237499.965057] [<ffffff80096491b0>] ngbe_poll+0x5d0/0x870
+[237499.970423] [<ffffff8009aa841c>] net_rx_action+0x13c/0x500
+[237499.976144] [<ffffff80090812c8>] __do_softirq+0x148/0x668
+[237499.981781] [<ffffff80090b1ed0>] run_ksoftirqd+0x48/0xa8
+[237499.987315] [<ffffff80090da3f8>] smpboot_thread_fn+0x198/0x290
+[237499.993397] [<ffffff80090d5244>] kthread+0xf4/0xf8
+[237499.998412] [<ffffff80090831c0>] ret_from_fork+0x10/0x50
+[237500.003955] Mem-Info:
+[237500.008450] active_anon:514482 inactive_anon:53904 isolated_anon:0
+                 active_file:6283 inactive_file:93766 isolated_file:0
+                 unevictable:0 dirty:16 writeback:4324 unstable:0
+                 slab_reclaimable:14600 slab_unreclaimable:12351
+                 mapped:8626 shmem:2345 pagetables:2140 bounce:0
+                 [cma] driver:20564 anon:14032 file:16128 isolate:0 total:258048
+                 free:191717 free_pcp:266 free_cma:206812
+[237500.077339] Node 0 active_anon:2057928kB inactive_anon:215616kB active_file:25132kB inactive_file:375064kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:34504kB dirty:64kB writeback:16272kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:2188 all_unreclaimable? no
+[237500.091807] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237500.091821] fb: osd rdma restart! 0x6001200
+[237500.117233] DMA free:766868kB min:7812kB low:11624kB high:15436kB active_anon:2057928kB inactive_anon:215616kB active_file:25132kB inactive_file:375064kB unevictable:0kB writepending:16336kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:58400kB slab_unreclaimable:49404kB kernel_stack:4080kB pagetables:8560kB bounce:0kB free_pcp:1064kB local_pcp:0kB free_unmovable:0kB free_movable:0kB free_reclaimable:0kB free_highatomic:0kB free_isolate:0kB free_cma:827248kB
+[237500.170212] lowmem_reserve[]: 0 0 0
+[237500.175580] DMA: 3724*4kB (C) 2038*8kB (C) 1565*16kB (C) 1182*32kB (C) 960*64kB (C) 940*128kB (C) 694*256kB (C) 376*512kB (C) 129*1024kB (C) 24*2048kB (C) 0*4096kB = 827248kB
+[237500.191150] 103349 total pagecache pages
+[237500.196749] 955 pages in swap cache
+[237500.202332] Swap cache stats: add 33481214, delete 33480259, find 16522062/19924301
+[237500.210250] Free swap  = 278819288kB
+[237500.215909] Total swap = 278847828kB
+[237500.221539] 983040 pages RAM
+[237500.227126] 0 pages HighMem/MovableOnly
+[237500.232709] 28724 pages reserved
+[237500.238270] 258048 pages cma reserved
+[237500.244114] ksoftirqd/0: page allocation failure: order:0, mode:0x2080020(GFP_ATOMIC)
+[237500.252687] CPU: 0 PID: 3 Comm: ksoftirqd/0 Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237500.261816] Hardware name: Amlogic (DT)
+[237500.267428] Call trace:
+[237500.272838] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237500.278108] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237500.283172] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237500.288334] [<ffffff8009201d7c>] warn_alloc+0x104/0x130
+[237500.293593] [<ffffff80092022b8>] __alloc_pages_nodemask+0x490/0xf60
+[237500.300086] [<ffffff8009202fc0>] __alloc_page_frag+0x150/0x170
+[237500.306134] [<ffffff8009a938e0>] __netdev_alloc_skb+0xd0/0x180
+[237500.312194] [<ffffff800964779c>] ngbe_clean_rx_irq+0x3c4/0x7c0
+[237500.318149] [<ffffff80096491b0>] ngbe_poll+0x5d0/0x870
+[237500.323394] [<ffffff8009aa841c>] net_rx_action+0x13c/0x500
+[237500.329112] [<ffffff80090812c8>] __do_softirq+0x148/0x668
+[237500.334706] [<ffffff80090b1ed0>] run_ksoftirqd+0x48/0xa8
+[237500.340204] [<ffffff80090da3f8>] smpboot_thread_fn+0x198/0x290
+[237500.346297] [<ffffff80090d5244>] kthread+0xf4/0xf8
+[237500.351317] [<ffffff80090831c0>] ret_from_fork+0x10/0x50
+[237500.356871] Mem-Info:
+[237500.361162] active_anon:514485 inactive_anon:54000 isolated_anon:0
+                 active_file:6283 inactive_file:93742 isolated_file:0
+                 unevictable:0 dirty:68 writeback:3336 unstable:0
+                 slab_reclaimable:14600 slab_unreclaimable:12343
+                 mapped:8626 shmem:2345 pagetables:2141 bounce:0
+                 [cma] driver:20564 anon:14032 file:16128 isolate:0 total:258048
+                 free:191717 free_pcp:198 free_cma:206812
+[237500.428894] Node 0 active_anon:2048412kB inactive_anon:229320kB active_file:25132kB inactive_file:370952kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:34504kB dirty:7312kB writeback:12244kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:32 all_unreclaimable? no
+[237500.442162] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237500.442181] fb: osd rdma restart! 0x6001200
+[237500.468483] DMA free:769368kB min:7812kB low:11624kB high:15436kB active_anon:2039868kB inactive_anon:239976kB active_file:25132kB inactive_file:366772kB unevictable:0kB writepending:24176kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:58400kB slab_unreclaimable:49372kB kernel_stack:4080kB pagetables:8564kB bounce:0kB free_pcp:148kB local_pcp:0kB free_unmovable:0kB free_movable:0kB free_reclaimable:0kB free_highatomic:0kB free_isolate:0kB free_cma:830216kB
+[237500.521525] lowmem_reserve[]: 0 0 0
+[237500.526914] DMA: 3755*4kB (C) 2084*8kB (C) 1605*16kB (C) 1202*32kB (C) 974*64kB (C) 943*128kB (C) 694*256kB (C) 376*512kB (C) 129*1024kB (C) 24*2048kB (C) 0*4096kB = 830300kB
+[237500.542516] 99897 total pagecache pages
+[237500.548135] 955 pages in swap cache
+[237500.553725] Swap cache stats: add 33481214, delete 33480259, find 16522062/19924301
+[237500.561665] Free swap  = 278819288kB
+[237500.567323] Total swap = 278847828kB
+[237500.572942] 983040 pages RAM
+[237500.578523] 0 pages HighMem/MovableOnly
+[237500.584099] 28724 pages reserved
+[237500.589649] 258048 pages cma reserved
+[237500.595375] ksoftirqd/0: page allocation failure: order:0, mode:0x2080020(GFP_ATOMIC)
+[237500.603991] CPU: 0 PID: 3 Comm: ksoftirqd/0 Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237500.613135] Hardware name: Amlogic (DT)
+[237500.618741] Call trace:
+[237500.624145] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237500.629408] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237500.634639] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237500.639986] [<ffffff8009201d7c>] warn_alloc+0x104/0x130
+[237500.645255] [<ffffff80092022b8>] __alloc_pages_nodemask+0x490/0xf60
+[237500.651583] [<ffffff8009202fc0>] __alloc_page_frag+0x150/0x170
+[237500.657524] [<ffffff8009a938e0>] __netdev_alloc_skb+0xd0/0x180
+[237500.664278] [<ffffff800964779c>] ngbe_clean_rx_irq+0x3c4/0x7c0
+[237500.669559] [<ffffff80096491b0>] ngbe_poll+0x5d0/0x870
+[237500.674738] [<ffffff8009aa841c>] net_rx_action+0x13c/0x500
+[237500.680461] [<ffffff80090812c8>] __do_softirq+0x148/0x668
+[237500.686040] [<ffffff80090b1ed0>] run_ksoftirqd+0x48/0xa8
+[237500.691530] [<ffffff80090da3f8>] smpboot_thread_fn+0x198/0x290
+[237500.697668] [<ffffff80090d5244>] kthread+0xf4/0xf8
+[237500.702670] [<ffffff80090831c0>] ret_from_fork+0x10/0x50
+[237500.708270] Mem-Info:
+[237500.712573] active_anon:503348 inactive_anon:69540 isolated_anon:0
+                 active_file:6283 inactive_file:87972 isolated_file:0
+                 unevictable:0 dirty:7273 writeback:2566 unstable:0
+                 slab_reclaimable:14526 slab_unreclaimable:12343
+                 mapped:8626 shmem:2345 pagetables:2141 bounce:0
+                 [cma] driver:20564 anon:14032 file:14648 isolate:0 total:258048
+                 free:193272 free_pcp:79 free_cma:208353
+[237500.780366] Node 0 active_anon:1998212kB inactive_anon:297696kB active_file:25132kB inactive_file:342260kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:34504kB dirty:35692kB writeback:9164kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:0 all_unreclaimable? no
+[237500.792509] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237500.792526] fb: osd rdma restart! 0x6001200
+[237500.819784] DMA free:786112kB min:7812kB low:11624kB high:15436kB active_anon:1985820kB inactive_anon:312052kB active_file:25132kB inactive_file:333040kB unevictable:0kB writepending:47496kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:57956kB slab_unreclaimable:49372kB kernel_stack:4080kB pagetables:8564kB bounce:0kB free_pcp:60kB local_pcp:0kB free_unmovable:0kB free_movable:0kB free_reclaimable:0kB free_highatomic:88kB free_isolate:0kB free_cma:846648kB
+[237500.872850] lowmem_reserve[]: 0 0 0
+[237500.878208] DMA: 3883*4kB (HC) 2494*8kB (HC) 1880*16kB (HC) 1367*32kB (C) 1045*64kB (C) 959*128kB (C) 697*256kB (C) 376*512kB (C) 129*1024kB (C) 24*2048kB (C) 0*4096kB = 851132kB
+[237500.894162] 90069 total pagecache pages
+[237500.899782] 955 pages in swap cache
+[237500.905388] Swap cache stats: add 33481214, delete 33480259, find 16522062/19924301
+[237500.913366] Free swap  = 278819288kB
+[237500.919499] Total swap = 278847828kB
+[237500.926052] 983040 pages RAM
+[237500.932645] 0 pages HighMem/MovableOnly
+[237500.938882] 28724 pages reserved
+[237500.944470] 258048 pages cma reserved
+[237500.950388] ksoftirqd/0: page allocation failure: order:0, mode:0x2080020(GFP_ATOMIC)
+[237500.959104] CPU: 0 PID: 3 Comm: ksoftirqd/0 Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237500.968772] Hardware name: Amlogic (DT)
+[237500.974481] Call trace:
+[237500.979975] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237500.985439] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237500.991773] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237500.997048] [<ffffff8009201d7c>] warn_alloc+0x104/0x130
+[237501.002092] [<ffffff80092022b8>] __alloc_pages_nodemask+0x490/0xf60
+[237501.008327] [<ffffff8009202fc0>] __alloc_page_frag+0x150/0x170
+[237501.014182] [<ffffff8009a938e0>] __netdev_alloc_skb+0xd0/0x180
+[237501.020261] [<ffffff800964779c>] ngbe_clean_rx_irq+0x3c4/0x7c0
+[237501.026220] [<ffffff80096491b0>] ngbe_poll+0x5d0/0x870
+[237501.031442] [<ffffff8009aa841c>] net_rx_action+0x13c/0x500
+[237501.037169] [<ffffff80090812c8>] __do_softirq+0x148/0x668
+[237501.042765] [<ffffff80090b1ed0>] run_ksoftirqd+0x48/0xa8
+[237501.048273] [<ffffff80090da3f8>] smpboot_thread_fn+0x198/0x290
+[237501.054377] [<ffffff80090d5244>] kthread+0xf4/0xf8
+[237501.059388] [<ffffff80090831c0>] ret_from_fork+0x10/0x50
+[237501.064926] Mem-Info:
+[237501.069246] active_anon:481561 inactive_anon:96216 isolated_anon:0
+                 active_file:6302 inactive_file:73677 isolated_file:32
+                 unevictable:0 dirty:14704 writeback:1508 unstable:0
+                 slab_reclaimable:14346 slab_unreclaimable:12318
+                 mapped:8586 shmem:2345 pagetables:2156 bounce:0
+                 [cma] driver:20564 anon:14017 file:5092 isolate:0 total:258048
+                 free:202831 free_pcp:102 free_cma:217921
+[237501.137299] Node 0 active_anon:1914524kB inactive_anon:401440kB active_file:25208kB inactive_file:289792kB unevictable:0kB isolated(anon):0kB isolated(file):128kB mapped:34344kB dirty:66736kB writeback:5008kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:11494 all_unreclaimable? no
+[237501.142862] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237501.142883] fb: osd rdma restart! 0x6001200
+[237501.177318] DMA free:811324kB min:7812kB low:11624kB high:15436kB active_anon:1907476kB inactive_anon:411060kB active_file:25208kB inactive_file:287232kB unevictable:0kB writepending:76584kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:57236kB slab_unreclaimable:49272kB kernel_stack:4080kB pagetables:8624kB bounce:0kB free_pcp:432kB local_pcp:0kB free_unmovable:0kB free_movable:0kB free_reclaimable:0kB free_highatomic:88kB free_isolate:0kB free_cma:871684kB
+[237501.230453] lowmem_reserve[]: 0 0 0
+[237501.235826] DMA: 3947*4kB (HC) 2864*8kB (HC) 2129*16kB (HC) 1527*32kB (C) 1117*64kB (C) 982*128kB (C) 696*256kB (C) 378*512kB (C) 129*1024kB (C) 24*2048kB (C) 0*4096kB = 871772kB
+[237501.251764] 80158 total pagecache pages
+[237501.257389] 961 pages in swap cache
+[237501.262999] Swap cache stats: add 33481223, delete 33480262, find 16522070/19924317
+[237501.270952] Free swap  = 278819300kB
+[237501.276666] Total swap = 278847828kB
+[237501.282344] 983040 pages RAM
+[237501.287972] 0 pages HighMem/MovableOnly
+[237501.293590] 28724 pages reserved
+[237501.299182] 258048 pages cma reserved
+[237501.305035] ksoftirqd/0: page allocation failure: order:0, mode:0x2080020(GFP_ATOMIC)
+[237501.313842] CPU: 0 PID: 3 Comm: ksoftirqd/0 Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237501.323139] Hardware name: Amlogic (DT)
+[237501.328866] Call trace:
+[237501.334426] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237501.339837] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237501.345196] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237501.350506] [<ffffff8009201d7c>] warn_alloc+0x104/0x130
+[237501.355676] [<ffffff80092022b8>] __alloc_pages_nodemask+0x490/0xf60
+[237501.361997] [<ffffff8009202fc0>] __alloc_page_frag+0x150/0x170
+[237501.367945] [<ffffff8009a938e0>] __netdev_alloc_skb+0xd0/0x180
+[237501.373903] [<ffffff800964779c>] ngbe_clean_rx_irq+0x3c4/0x7c0
+[237501.379841] [<ffffff80096491b0>] ngbe_poll+0x5d0/0x870
+[237501.385200] [<ffffff8009aa841c>] net_rx_action+0x13c/0x500
+[237501.390949] [<ffffff80090812c8>] __do_softirq+0x148/0x668
+[237501.396409] [<ffffff80090b1ed0>] run_ksoftirqd+0x48/0xa8
+[237501.402041] [<ffffff80090da3f8>] smpboot_thread_fn+0x198/0x290
+[237501.407990] [<ffffff80090d5244>] kthread+0xf4/0xf8
+[237501.413033] [<ffffff80090831c0>] ret_from_fork+0x10/0x50
+[237501.418695] Mem-Info:
+[237501.423088] active_anon:467162 inactive_anon:116455 isolated_anon:0
+                 active_file:6302 inactive_file:68583 isolated_file:32
+                 unevictable:0 dirty:25374 writeback:776 unstable:0
+                 slab_reclaimable:14198 slab_unreclaimable:12318
+                 mapped:8586 shmem:2345 pagetables:2156 bounce:0
+                 [cma] driver:20564 anon:14387 file:5351 isolate:0 total:258048
+                 free:202105 free_pcp:80 free_cma:217245
+[237501.491680] Node 0 active_anon:1866476kB inactive_anon:472480kB active_file:25208kB inactive_file:269888kB unevictable:0kB isolated(anon):0kB isolated(file):128kB mapped:34344kB dirty:101276kB writeback:9484kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:33 all_unreclaimable? no
+[237501.493216] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237501.493241] fb: osd rdma restart! 0x6001200
+[237501.531959] DMA free:808600kB min:7812kB low:11624kB high:15436kB active_anon:1868736kB inactive_anon:473072kB active_file:25208kB inactive_file:267712kB unevictable:0kB writepending:114500kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:56644kB slab_unreclaimable:49272kB kernel_stack:4080kB pagetables:8624kB bounce:0kB free_pcp:184kB local_pcp:0kB free_unmovable:0kB free_movable:0kB free_reclaimable:0kB free_highatomic:88kB free_isolate:0kB free_cma:868980kB
+[237501.584874] lowmem_reserve[]: 0 0 0
+[237501.590226] DMA: 3877*4kB (HC) 2805*8kB (HC) 2093*16kB (HC) 1496*32kB (C) 1103*64kB (C) 978*128kB (C) 692*256kB (C) 382*512kB (C) 129*1024kB (C) 24*2048kB (C) 0*4096kB = 869068kB
+[237501.606129] 75604 total pagecache pages
+[237501.611729] 961 pages in swap cache
+[237501.617316] Swap cache stats: add 33481223, delete 33480262, find 16522071/19924318
+[237501.625236] Free swap  = 278819300kB
+[237501.630896] Total swap = 278847828kB
+[237501.636528] 983040 pages RAM
+[237501.642118] 0 pages HighMem/MovableOnly
+[237501.647704] 28724 pages reserved
+[237501.653259] 258048 pages cma reserved
+[237501.659611] ksoftirqd/0: page allocation failure: order:0, mode:0x2080020(GFP_ATOMIC)
+[237501.668238] CPU: 0 PID: 3 Comm: ksoftirqd/0 Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237501.677418] Hardware name: Amlogic (DT)
+[237501.683082] Call trace:
+[237501.688512] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237501.693783] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237501.699019] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237501.704363] [<ffffff8009201d7c>] warn_alloc+0x104/0x130
+[237501.709636] [<ffffff80092022b8>] __alloc_pages_nodemask+0x490/0xf60
+[237501.715957] [<ffffff8009202fc0>] __alloc_page_frag+0x150/0x170
+[237501.721819] [<ffffff8009a938e0>] __netdev_alloc_skb+0xd0/0x180
+[237501.727879] [<ffffff800964779c>] ngbe_clean_rx_irq+0x3c4/0x7c0
+[237501.733819] [<ffffff80096491b0>] ngbe_poll+0x5d0/0x870
+[237501.739062] [<ffffff8009aa841c>] net_rx_action+0x13c/0x500
+[237501.744789] [<ffffff80090812c8>] __do_softirq+0x148/0x668
+[237501.750385] [<ffffff80090b1ed0>] run_ksoftirqd+0x48/0xa8
+[237501.755881] [<ffffff80090da3f8>] smpboot_thread_fn+0x198/0x290
+[237501.761970] [<ffffff80090d5244>] kthread+0xf4/0xf8
+[237501.766995] [<ffffff80090831c0>] ret_from_fork+0x10/0x50
+[237501.772545] Mem-Info:
+[237501.776840] active_anon:468029 inactive_anon:118494 isolated_anon:0
+                 active_file:6340 inactive_file:65777 isolated_file:0
+                 unevictable:0 dirty:25191 writeback:4113 unstable:0
+                 slab_reclaimable:14102 slab_unreclaimable:12324
+                 mapped:8556 shmem:2345 pagetables:2176 bounce:0
+                 [cma] driver:20564 anon:14405 file:5322 isolate:0 total:258048
+                 free:202171 free_pcp:128 free_cma:217257
+[237501.843561] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237501.843578] fb: osd rdma restart! 0x6001200
+[237501.853886] Node 0 active_anon:1872116kB inactive_anon:473976kB active_file:25360kB inactive_file:263108kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:34224kB dirty:100764kB writeback:16452kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:0 all_unreclaimable? no
+[237501.884836] DMA free:808684kB min:7812kB low:11624kB high:15436kB active_anon:1872116kB inactive_anon:473976kB active_file:25360kB inactive_file:263108kB unevictable:0kB writepending:117216kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:56408kB slab_unreclaimable:49296kB kernel_stack:4080kB pagetables:8704kB bounce:0kB free_pcp:512kB local_pcp:0kB free_unmovable:0kB free_movable:0kB free_reclaimable:0kB free_highatomic:88kB free_isolate:0kB free_cma:869028kB
+[237501.937418] lowmem_reserve[]: 0 0 0
+[237501.942761] DMA: 3885*4kB (HC) 2805*8kB (HC) 2092*16kB (HC) 1495*32kB (C) 1102*64kB (C) 977*128kB (C) 691*256kB (C) 381*512kB (C) 128*1024kB (C) 25*2048kB (C) 0*4096kB = 869116kB
+[237501.958660] 75424 total pagecache pages
+[237501.964258] 961 pages in swap cache
+[237501.969840] Swap cache stats: add 33481223, delete 33480262, find 16522072/19924319
+[237501.977751] Free swap  = 278819300kB
+[237501.983408] Total swap = 278847828kB
+[237501.989038] 983040 pages RAM
+[237501.994625] 0 pages HighMem/MovableOnly
+[237502.000203] 28724 pages reserved
+[237502.005759] 258048 pages cma reserved
+[237502.010400] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237502.010404] fb: osd rdma restart! 0x6001200
+[237502.023070] ksoftirqd/0: page allocation failure: order:0, mode:0x2080020(GFP_ATOMIC)
+[237502.031627] CPU: 0 PID: 3 Comm: ksoftirqd/0 Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237502.040590] Hardware name: Amlogic (DT)
+[237502.045859] Call trace:
+[237502.051080] [<ffffff800908ad50>] dump_backtrace+0x0/0x268
+[237502.056340] [<ffffff800908b03c>] show_stack+0x24/0x30
+[237502.061421] [<ffffff80094208c0>] dump_stack+0xe4/0x12c
+[237502.066586] [<ffffff8009201d7c>] warn_alloc+0x104/0x130
+[237502.071857] [<ffffff80092022b8>] __alloc_pages_nodemask+0x490/0xf60
+[237502.078368] [<ffffff8009202fc0>] __alloc_page_frag+0x150/0x170
+[237502.084301] [<ffffff8009a938e0>] __netdev_alloc_skb+0xd0/0x180
+[237502.090242] [<ffffff800964779c>] ngbe_clean_rx_irq+0x3c4/0x7c0
+[237502.096309] [<ffffff80096491b0>] ngbe_poll+0x5d0/0x870
+[237502.101637] [<ffffff8009aa841c>] net_rx_action+0x13c/0x500
+[237502.107324] [<ffffff80090812c8>] __do_softirq+0x148/0x668
+[237502.112971] [<ffffff80090b1ed0>] run_ksoftirqd+0x48/0xa8
+[237502.118513] [<ffffff80090da3f8>] smpboot_thread_fn+0x198/0x290
+[237502.124592] [<ffffff80090d5244>] kthread+0xf4/0xf8
+[237502.129613] [<ffffff80090831c0>] ret_from_fork+0x10/0x50
+[237502.135168] Mem-Info:
+[237502.139474] active_anon:467908 inactive_anon:118558 isolated_anon:0
+                 active_file:6340 inactive_file:65626 isolated_file:0
+                 unevictable:0 dirty:25191 writeback:3724 unstable:0
+                 slab_reclaimable:14076 slab_unreclaimable:12324
+                 mapped:8554 shmem:2345 pagetables:2170 bounce:0
+                 [cma] driver:20564 anon:14392 file:5321 isolate:0 total:258048
+                 free:202221 free_pcp:275 free_cma:217259
+[237502.209114] Node 0 active_anon:1873004kB inactive_anon:474380kB active_file:25360kB inactive_file:265796kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:34216kB dirty:106704kB writeback:12916kB shmem:9380kB writeback_tmp:0kB unstable:0kB pages_scanned:83 all_unreclaimable? no
+[237502.210604] rdma_watchdog_setting rdma reset: 21, force flag:0
+[237502.210627] fb: osd rdma restart! 0x6001200
+[237502.249008] DMA free:805036kB min:7812kB low:11624kB high:15436kB active_anon:1873940kB inactive_anon:474488kB active_file:25360kB inactive_file:264812kB unevictable:0kB writepending:120232kB present:3932160kB managed:3817264kB mlocked:0kB slab_reclaimable:56156kB slab_unreclaimable:49296kB kernel_stack:4064kB pagetables:8680kB bounce:0kB free_pcp:360kB local_pcp:0kB free_unmovable:0kB free_movable:0kB free_reclaimable:0kB free_highatomic:108kB free_isolate:0kB free_cma:865208kB
+[237502.302260] lowmem_reserve[]: 0 0 0
+[237502.307658] DMA: 3573*4kB (HC) 2684*8kB (HC) 2037*16kB (HC) 1483*32kB (C) 1099*64kB (C) 976*128kB (C) 691*256kB (C) 381*512kB (C) 128*1024kB (C) 25*2048kB (C) 0*4096kB = 865316kB
+[237502.323611] 75899 total pagecache pages
+[237502.329269] 961 pages in swap cache
+[237502.334891] Swap cache stats: add 33481223, delete 33480262, find 16522072/19924319
+[237502.342839] Free swap  = 278819300kB
+[237502.348503] Total swap = 278847828kB
+[237502.354132] 983040 pages RAM
+[237502.359729] 0 pages HighMem/MovableOnly
+[237502.365331] 28724 pages reserved
+[237502.370903] 258048 pages cma reserved
+[237677.641469] INFO: task kswapd0:1419 blocked for more than 120 seconds.
+[237677.645052]       Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237677.651855] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[237677.659944] kswapd0         D    0  1419      2 0x00000000
+[237677.665545] Call trace:
+[237677.668157] [<ffffff80090861cc>] __switch_to+0xa4/0xe8
+[237677.673484] [<ffffff8009c5a5ac>] __schedule+0x2f4/0xb40
+[237677.678841] [<ffffff8009c5ae38>] schedule+0x40/0xa8
+[237677.683869] [<ffffff8009388918>] jbd2_log_wait_commit+0x130/0x1b0
+[237677.690213] [<ffffff800938a128>] jbd2_complete_transaction+0x90/0xc0
+[237677.696737] [<ffffff800932c7fc>] ext4_evict_inode+0x3bc/0x738
+[237677.702665] [<ffffff80092960f8>] evict+0xb0/0x188
+[237677.707619] [<ffffff8009296220>] dispose_list+0x50/0x80
+[237677.713048] [<ffffff800929797c>] prune_icache_sb+0x54/0x68
+[237677.718755] [<ffffff8009277f3c>] super_cache_scan+0x104/0x178
+[237677.724756] [<ffffff800920f550>] shrink_slab.part.15+0x288/0x700
+[237677.730989] [<ffffff800920fa40>] shrink_slab+0x78/0x90
+[237677.736370] [<ffffff80092141d4>] shrink_node+0x11c/0x2f8
+[237677.741897] [<ffffff8009215700>] kswapd+0x308/0xa98
+[237677.747013] [<ffffff80090d5244>] kthread+0xf4/0xf8
+[237677.752025] [<ffffff80090831c0>] ret_from_fork+0x10/0x50
+[237677.757586] INFO: lockdep is turned off.
+[237677.761762] INFO: task cron:12797 blocked for more than 120 seconds.
+[237677.768295]       Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237677.775156] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[237677.783240] cron            D    0 12797   3799 0x00000000
+[237677.788936] Call trace:
+[237677.791615] [<ffffff80090861cc>] __switch_to+0xa4/0xe8
+[237677.797016] [<ffffff8009c5a5ac>] __schedule+0x2f4/0xb40
+[237677.802465] [<ffffff8009c5ae38>] schedule+0x40/0xa8
+[237677.807592] [<ffffff8009295504>] __wait_on_freeing_inode+0x8c/0xb0
+[237677.814001] [<ffffff8009295774>] find_inode_fast+0x9c/0xd8
+[237677.819733] [<ffffff8009296ce8>] iget_locked+0xa0/0x1d0
+[237677.825181] [<ffffff8009324aa8>] __ext4_iget+0xe8/0xb60
+[237677.830651] [<ffffff80093332b4>] ext4_lookup+0xec/0x230
+[237677.836092] [<ffffff800928027c>] lookup_slow+0xcc/0x1a8
+[237677.841560] [<ffffff8009284018>] walk_component+0x1b8/0x2f8
+[237677.847361] [<ffffff800928443c>] link_path_walk+0x2e4/0x528
+[237677.853175] [<ffffff800928564c>] path_openat+0x84/0xd70
+[237677.858617] [<ffffff8009287560>] do_filp_open+0x70/0xe8
+[237677.864080] [<ffffff80092719bc>] do_sys_open+0x174/0x258
+[237677.869621] [<ffffff8009271b24>] SyS_openat+0x3c/0x50
+[237677.874909] [<ffffff8009083240>] el0_svc_naked+0x34/0x38
+[237677.880433] INFO: lockdep is turned off.
+[237677.884594] INFO: task sleep:12803 blocked for more than 120 seconds.
+[237677.891304]       Tainted: G        W       4.9.241-00121-gdeff65e5a #2
+[237677.898131] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[237677.906220] sleep           D    0 12803  12564 0x00000000
+[237677.911896] Call trace:
+[237677.914513] [<ffffff80090861cc>] __switch_to+0xa4/0xe8
+[237677.919834] [<ffffff8009c5a5ac>] __schedule+0x2f4/0xb40
+[237677.925261] [<ffffff8009c5ae38>] schedule+0x40/0xa8
+[237677.930371] [<ffffff80092931d0>] d_alloc_parallel+0x570/0xa70
+[237677.936272] [<ffffff8009280250>] lookup_slow+0xa0/0x1a8
+[237677.941663] [<ffffff8009284018>] walk_component+0x1b8/0x2f8
+[237677.947381] [<ffffff800928443c>] link_path_walk+0x2e4/0x528
+[237677.953196] [<ffffff800928564c>] path_openat+0x84/0xd70
+[237677.958587] [<ffffff8009287560>] do_filp_open+0x70/0xe8
+[237677.964016] [<ffffff80092719bc>] do_sys_open+0x174/0x258
+[237677.969539] [<ffffff8009271b24>] SyS_openat+0x3c/0x50
+[237677.974826] [<ffffff8009083240>] el0_svc_naked+0x34/0x38
+[237677.980337] INFO: lockdep is turned off.
+[237755.711828] EXT4-fs error (device nvme0n1p2): ext4_map_blocks:572: inode #2: block 9276: comm ls: lblock 0 mapped to illegal pblock 9276 (length 1)
+
