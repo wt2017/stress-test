@@ -15,7 +15,7 @@ NETWORK_IF="lan2"           # 网络接口，请根据实际情况修改
 SERVER_IP="192.168.2.222"                # 网络测试服务器IP（留空则不进行网络测试）
 IPERF_PORT="5201"           # iperf3服务器端口
 MEMORY_SIZE="3G"            # 内存测试大小，目标约75%内存使用率
-DISK_IO_TARGET="5G"         # 磁盘IO目标带宽 (5Gbps)
+DISK_IO_TARGET="5g"         # 磁盘IO目标带宽 (5 gigabits per second)
 NETWORK_IO_TARGET="4G"      # 网络IO目标带宽 (4Gbps)
 
 # 颜色输出
@@ -193,31 +193,71 @@ nvme_stress_test() {
         test_file="$NVME_DEVICE"
     fi
     
-    # 1. 顺序读写测试
-    $FIO_CMD --name=seq_write --filename="$test_file" --ioengine=posixaio --direct=1 \
-        --bs=1M --iodepth=32 --size="$TEST_FILE_SIZE" --rw=write \
-        --rate="$DISK_IO_TARGET" --rate_process=poisson \
+    # 1. 5 Gbps目标测试（确保触发5 Gbps IO）- 使用posixaio
+    print_info "运行5 Gbps目标测试 (posixaio)..."
+    local target_bw="5G"  # 5 gigabits per second
+    $FIO_CMD --name=target_5gbps --filename="$test_file" --ioengine=posixaio --direct=1 \
+        --bs=1M --iodepth=128 --size="$TEST_FILE_SIZE" --rw=write \
+        --rate="$target_bw" --rate_process=poisson \
         --runtime="$RUN_TIME" --time_based --group_reporting \
-        --output="$LOG_DIR/nvme/seq_write.json" --output-format=json &
-    FIO_WRITE_PID=$!
+        --output="$LOG_DIR/nvme/target_5gbps.json" --output-format=json &
+    FIO_TARGET_PID=$!
     
-    $FIO_CMD --name=seq_read --filename="$test_file" --ioengine=posixaio --direct=1 \
-        --bs=1M --iodepth=32 --size="$TEST_FILE_SIZE" --rw=read \
-        --rate="$DISK_IO_TARGET" --rate_process=poisson \
-        --runtime="$RUN_TIME" --time_based --group_reporting \
-        --output="$LOG_DIR/nvme/seq_read.json" --output-format=json &
-    FIO_READ_PID=$!
+    # 2. 顺序读写测试（使用mmap ioengine以提高性能）
+    print_info "运行顺序写入测试 (mmap)..."
+    $FIO_CMD --name=seq_write_mmap --filename="$test_file" --ioengine=mmap --direct=0 \
+        --bs=1M --iodepth=128 --size="$TEST_FILE_SIZE" --rw=write \
+        --numjobs=4 --runtime="$RUN_TIME" --time_based --group_reporting \
+        --output="$LOG_DIR/nvme/seq_write_mmap.json" --output-format=json &
+    FIO_WRITE_MMAP_PID=$!
     
-    # 2. 随机IO测试
-    $FIO_CMD --name=rand_rw --filename="$test_file" --ioengine=posixaio --direct=1 \
-        --bs=4k --iodepth=64 --size="$TEST_FILE_SIZE" --rw=randrw --rwmixread=70 \
-        --rate="$DISK_IO_TARGET" --rate_process=poisson \
-        --numjobs="$THREADS" --runtime="$RUN_TIME" --time_based --group_reporting \
-        --output="$LOG_DIR/nvme/rand_rw.json" --output-format=json &
-    FIO_RAND_PID=$!
+    print_info "运行顺序读取测试 (mmap)..."
+    $FIO_CMD --name=seq_read_mmap --filename="$test_file" --ioengine=mmap --direct=0 \
+        --bs=1M --iodepth=128 --size="$TEST_FILE_SIZE" --rw=read \
+        --numjobs=4 --runtime="$RUN_TIME" --time_based --group_reporting \
+        --output="$LOG_DIR/nvme/seq_read_mmap.json" --output-format=json &
+    FIO_READ_MMAP_PID=$!
+    
+    # 3. 随机IO测试（使用mmap ioengine以提高性能）
+    print_info "运行随机读写测试 (mmap)..."
+    $FIO_CMD --name=rand_rw_mmap --filename="$test_file" --ioengine=mmap --direct=0 \
+        --bs=4k --iodepth=256 --size="$TEST_FILE_SIZE" --rw=randrw --rwmixread=70 \
+        --numjobs=8 --runtime="$RUN_TIME" --time_based --group_reporting \
+        --output="$LOG_DIR/nvme/rand_rw_mmap.json" --output-format=json &
+    FIO_RAND_MMAP_PID=$!
+    
+    # 4. 传统posixaio测试（用于比较）
+    print_info "运行传统顺序写入测试 (posixaio)..."
+    $FIO_CMD --name=seq_write_posix --filename="$test_file" --ioengine=posixaio --direct=1 \
+        --bs=1M --iodepth=128 --size="$TEST_FILE_SIZE" --rw=write \
+        --numjobs=4 --runtime="$RUN_TIME" --time_based --group_reporting \
+        --output="$LOG_DIR/nvme/seq_write_posix.json" --output-format=json &
+    FIO_WRITE_POSIX_PID=$!
+    
+    print_info "运行传统顺序读取测试 (posixaio)..."
+    $FIO_CMD --name=seq_read_posix --filename="$test_file" --ioengine=posixaio --direct=1 \
+        --bs=1M --iodepth=128 --size="$TEST_FILE_SIZE" --rw=read \
+        --numjobs=4 --runtime="$RUN_TIME" --time_based --group_reporting \
+        --output="$LOG_DIR/nvme/seq_read_posix.json" --output-format=json &
+    FIO_READ_POSIX_PID=$!
     
     # 等待NVMe测试完成
-    wait $FIO_WRITE_PID $FIO_READ_PID $FIO_RAND_PID
+    wait $FIO_TARGET_PID $FIO_WRITE_MMAP_PID $FIO_READ_MMAP_PID $FIO_RAND_MMAP_PID $FIO_WRITE_POSIX_PID $FIO_READ_POSIX_PID
+    
+    # 分析5 Gbps测试结果
+    if [ -f "$LOG_DIR/nvme/target_5gbps.json" ]; then
+        local achieved_bw=$(grep -A5 '"write"' "$LOG_DIR/nvme/target_5gbps.json" | grep '"bw_mean"' | sed 's/.*: //;s/,//')
+        if [ -n "$achieved_bw" ]; then
+            # 转换字节/秒为Gbps
+            local achieved_gbps=$(echo "scale=2; $achieved_bw * 8 / 1000000000" | bc 2>/dev/null || echo "N/A")
+            print_info "5 Gbps目标测试结果: 达到 ${achieved_gbps} Gbps"
+            if [ "$achieved_gbps" != "N/A" ] && [ $(echo "$achieved_gbps >= 4.5" | bc 2>/dev/null || echo 0) -eq 1 ]; then
+                print_success "成功触发至少 4.5 Gbps IO (目标: 5 Gbps)"
+            else
+                print_warning "未能达到 5 Gbps 目标，仅达到 ${achieved_gbps} Gbps"
+            fi
+        fi
+    fi
     
     # 清理测试文件（如果是文件系统测试）
     if [ -n "$mount_point" ] && [ -f "$test_file" ]; then
@@ -237,20 +277,14 @@ network_stress_test() {
     
     print_info "开始网络压力测试（运行${RUN_TIME}秒）..."
     
-    # TCP带宽测试
-    $IPERF3_CMD -c "$SERVER_IP" -p "$IPERF_PORT" -t "$RUN_TIME" -P "$THREADS" \
-        -J > "$LOG_DIR/network/tcp_upload.json" &
-    IPERF_TCP_UPLOAD_PID=$!
-    
-    sleep 2
-    
-    # UDP带宽测试
-    $IPERF3_CMD -c "$SERVER_IP" -p "$IPERF_PORT" -t "$RUN_TIME" -u -b "$NETWORK_IO_TARGET" \
+    # UDP带宽测试（使用UDP以达到最大线路速度）
+    print_info "使用UDP进行带宽测试（设置极高带宽目标100G以达到最大线路速度）..."
+    $IPERF3_CMD -c "$SERVER_IP" -p "$IPERF_PORT" -t "$RUN_TIME" -u -b 100G \
         -J > "$LOG_DIR/network/udp_upload.json" &
     IPERF_UDP_PID=$!
     
     # 等待网络测试完成
-    wait $IPERF_TCP_UPLOAD_PID $IPERF_UDP_PID
+    wait $IPERF_UDP_PID
     
     print_success "网络压力测试完成"
 }
@@ -270,7 +304,7 @@ memory_stress_test() {
     
     # 使用fio进行内存IO测试
     $FIO_CMD --name=mem_test --ioengine=posixaio --direct=1 \
-        --bs=4k --iodepth=32 --size="$MEMORY_SIZE" --rw=randrw --rwmixread=50 \
+        --bs=4k --iodepth=64 --size="$MEMORY_SIZE" --rw=randrw --rwmixread=50 \
         --numjobs="$THREADS" --runtime="$RUN_TIME" --time_based --group_reporting \
         --output="$LOG_DIR/memory/mem_io.json" --output-format=json &
     FIO_MEM_PID=$!
@@ -342,9 +376,12 @@ $(sar -d -f "$LOG_DIR/system/disk.log" | tail -10)
 $(sar -n DEV -f "$LOG_DIR/system/network.log" | tail -10)
 
 === NVMe测试摘要 ===
-顺序写入: $(grep -A5 '"write"' "$LOG_DIR/nvme/seq_write.json" | grep 'bw_mean' | cut -d: -f2)
-顺序读取: $(grep -A5 '"read"' "$LOG_DIR/nvme/seq_read.json" | grep 'bw_mean' | cut -d: -f2)
-随机读写IOPS: $(grep -A5 '"iops"' "$LOG_DIR/nvme/rand_rw.json" | grep 'mean' | head -1 | cut -d: -f2)
+5 Gbps目标测试: $(grep -A5 '"write"' "$LOG_DIR/nvme/target_5gbps.json" | grep 'bw_mean' | cut -d: -f2)
+顺序写入 (mmap): $(grep -A5 '"write"' "$LOG_DIR/nvme/seq_write_mmap.json" | grep 'bw_mean' | cut -d: -f2)
+顺序读取 (mmap): $(grep -A5 '"read"' "$LOG_DIR/nvme/seq_read_mmap.json" | grep 'bw_mean' | cut -d: -f2)
+顺序写入 (posixaio): $(grep -A5 '"write"' "$LOG_DIR/nvme/seq_write_posix.json" | grep 'bw_mean' | cut -d: -f2)
+顺序读取 (posixaio): $(grep -A5 '"read"' "$LOG_DIR/nvme/seq_read_posix.json" | grep 'bw_mean' | cut -d: -f2)
+随机读写 (mmap) IOPS: $(grep -A5 '"iops"' "$LOG_DIR/nvme/rand_rw_mmap.json" | grep 'mean' | head -1 | cut -d: -f2)
 
 === 测试状态 ===
 所有测试完成: ✓
@@ -411,7 +448,7 @@ usage() {
     echo "  -p <端口>   iperf3服务器端口 (默认: 5201)"
     echo "  -m <大小>   内存测试大小 (默认: 3G)"
     echo "  -j <线程>   并行线程数 (默认: 4)"
-    echo "  -b <带宽>   磁盘IO目标带宽 (默认: 5G)"
+    echo "  -b <带宽>   磁盘IO目标带宽，单位：g= gigabits, m= megabits, k= kilobits (默认: 5g)"
     echo "  -n <带宽>   网络IO目标带宽 (默认: 4G)"
     echo "  -h         显示帮助信息"
     exit 0
