@@ -95,7 +95,11 @@ create_log_dir() {
 cleanup_test_dir() {
     if [ -d "$TEST_DIR" ]; then
         print_info "Cleaning test directory: $TEST_DIR"
-        rm -rf "$TEST_DIR"/*
+        # Use find to avoid "Argument list too long" error
+        # First delete all .tmp files
+        find "$TEST_DIR" -type f -name "*.tmp" -delete 2>/dev/null || true
+        # Then delete any remaining files and directories
+        find "$TEST_DIR" -mindepth 1 -delete 2>/dev/null || true
     fi
 }
 
@@ -313,6 +317,248 @@ EOF
     print_success "Lock contention and IO error monitoring started (PID: $MONITOR_PID)"
 }
 
+# Setup device-mapper error device to simulate IO errors
+setup_error_device() {
+    print_info "Setting up device-mapper error device to simulate IO errors..."
+    
+    # Check if we have permission to use dmsetup
+    if ! command -v dmsetup &> /dev/null; then
+        print_warning "dmsetup not found, skipping error device setup"
+        return 1
+    fi
+    
+    # Check if we're running as root (dmsetup typically requires root)
+    if [ "$EUID" -ne 0 ]; then
+        print_warning "Not running as root, device-mapper error injection may not work"
+        print_warning "Try running with sudo or as root for guaranteed error injection"
+    fi
+    
+    # Create a loop device as backing store if needed
+    local backing_file="$LOG_DIR/error_device_backing.img"
+    local loop_device=""
+    
+    # Create a 1GB backing file
+    dd if=/dev/zero of="$backing_file" bs=1M count=1024 status=none 2>/dev/null || {
+        print_warning "Failed to create backing file, using existing block device"
+        # Try to find an existing block device we can use
+        local test_dev="/dev/loop0"
+        if [ -b "$test_dev" ]; then
+            loop_device="$test_dev"
+        else
+            print_error "No suitable backing device found for error injection"
+            return 1
+        fi
+    }
+    
+    if [ -z "$loop_device" ] && [ -f "$backing_file" ]; then
+        # Setup loop device - improved logic to find truly free loop device
+        print_info "Looking for free loop device..."
+        
+        # First try losetup -f to find next free device
+        loop_device=$(losetup -f 2>/dev/null)
+        if [ -n "$loop_device" ]; then
+            # Check if the device is actually free (not in losetup -a)
+            if losetup -a | grep -q "^$loop_device:"; then
+                print_warning "Device $loop_device returned by 'losetup -f' is already in use"
+                loop_device=""
+            fi
+        fi
+        
+        # If losetup -f didn't work or returned occupied device, try known free devices
+        if [ -z "$loop_device" ]; then
+            print_info "Trying known free loop devices..."
+            for dev in /dev/loop12 /dev/loop16 /dev/loop17 /dev/loop18 /dev/loop19 /dev/loop20; do
+                if [ -b "$dev" ] && ! losetup -a | grep -q "^$dev:"; then
+                    loop_device="$dev"
+                    print_info "Found free loop device: $loop_device"
+                    break
+                fi
+            done
+        fi
+        
+        # If still no free device, try to find any free loop device
+        if [ -z "$loop_device" ]; then
+            print_info "Scanning for any free loop device..."
+            for i in {0..31}; do
+                dev="/dev/loop$i"
+                if [ -b "$dev" ] && ! losetup -a | grep -q "^$dev:"; then
+                    loop_device="$dev"
+                    print_info "Found free loop device: $loop_device"
+                    break
+                fi
+            done
+        fi
+        
+        # If we found a free loop device, try to set it up
+        if [ -n "$loop_device" ]; then
+            print_info "Setting up loop device $loop_device with backing file $backing_file"
+            if losetup "$loop_device" "$backing_file" 2>/dev/null; then
+                print_success "Successfully set up loop device $loop_device"
+            else
+                print_warning "Failed to setup loop device $loop_device, trying with sudo..."
+                if sudo losetup "$loop_device" "$backing_file" 2>/dev/null; then
+                    print_success "Successfully set up loop device $loop_device with sudo"
+                else
+                    print_error "Failed to setup loop device $loop_device even with sudo"
+                    print_info "Trying to find already set up loop device..."
+                    # Try to use an existing loop device that's already set up
+                    loop_device=$(losetup -a | head -1 | cut -d: -f1)
+                    if [ -z "$loop_device" ]; then
+                        print_error "No loop device available for error injection"
+                        return 1
+                    else
+                        print_warning "Using already set up loop device: $loop_device"
+                    fi
+                fi
+            fi
+        else
+            print_error "No free loop device found for error injection"
+            print_info "All loop devices 0-31 are occupied. Consider freeing some loop devices."
+            return 1
+        fi
+    fi
+    
+    # Create device-mapper error device
+    local error_device_name="jbd2_error_dev"
+    local sector_size=512
+    local total_sectors=2097152  # 1GB in 512-byte sectors
+    
+    # Remove existing device if present
+    dmsetup remove "$error_device_name" 2>/dev/null || true
+    
+    # Create device-mapper table:
+    # - First 1000 sectors: normal linear mapping
+    # - Next 100 sectors: error target (returns I/O error)
+    # - Rest: normal linear mapping
+    cat > "$LOG_DIR/dm_table.txt" << EOF
+0 1000 linear $loop_device 0
+1000 100 error
+1100 $((total_sectors - 1100)) linear $loop_device 1100
+EOF
+    
+    # Create the device
+    dmsetup create "$error_device_name" < "$LOG_DIR/dm_table.txt" 2>/dev/null || {
+        print_error "Failed to create device-mapper error device"
+        print_info "This may require root privileges. Trying with sudo..."
+        
+        # Try with sudo
+        sudo dmsetup create "$error_device_name" < "$LOG_DIR/dm_table.txt" 2>/dev/null || {
+            print_error "Failed to create error device even with sudo"
+            print_info "Manual error device creation required for guaranteed IO errors"
+            return 1
+        }
+    }
+    
+    ERROR_DEVICE="/dev/mapper/$error_device_name"
+    export ERROR_DEVICE
+    
+    # Create test directory on error device
+    local error_test_dir="$TEST_DIR/error_device"
+    mkdir -p "$error_test_dir"
+    
+    # Try to mount if we have a filesystem (optional)
+    if [ -b "$ERROR_DEVICE" ]; then
+        # Create filesystem
+        mkfs.ext4 -F "$ERROR_DEVICE" >/dev/null 2>&1 && {
+            mount "$ERROR_DEVICE" "$error_test_dir" 2>/dev/null && {
+                print_success "Error device mounted at $error_test_dir"
+                ERROR_DEVICE_MOUNTED=true
+                export ERROR_DEVICE_MOUNTED
+                export ERROR_TEST_DIR="$error_test_dir"
+            } || print_warning "Could not mount error device, using as raw block device"
+        } || print_warning "Could not create filesystem on error device, using as raw block device"
+    fi
+    
+    print_success "Device-mapper error device created: $ERROR_DEVICE"
+    print_info "Sectors 1000-1099 will return I/O errors (guaranteeing blk_update_request messages)"
+    
+    # Save device info for cleanup
+    echo "$error_device_name" > "$LOG_DIR/error_device_name.txt"
+    [ -n "$loop_device" ] && echo "$loop_device" > "$LOG_DIR/loop_device.txt"
+    [ -f "$backing_file" ] && echo "$backing_file" > "$LOG_DIR/backing_file.txt"
+    
+    return 0
+}
+
+# Cleanup error device
+cleanup_error_device() {
+    print_info "Cleaning up device-mapper error device..."
+    
+    local error_device_name=""
+    local loop_device=""
+    local backing_file=""
+    
+    [ -f "$LOG_DIR/error_device_name.txt" ] && error_device_name=$(cat "$LOG_DIR/error_device_name.txt")
+    [ -f "$LOG_DIR/loop_device.txt" ] && loop_device=$(cat "$LOG_DIR/loop_device.txt")
+    [ -f "$LOG_DIR/backing_file.txt" ] && backing_file=$(cat "$LOG_DIR/backing_file.txt")
+    
+    # Unmount if mounted
+    if [ "${ERROR_DEVICE_MOUNTED:-false}" = "true" ] && [ -n "${ERROR_TEST_DIR:-}" ]; then
+        umount "${ERROR_TEST_DIR}" 2>/dev/null || true
+        rmdir "${ERROR_TEST_DIR}" 2>/dev/null || true
+    fi
+    
+    # Remove device-mapper device
+    if [ -n "$error_device_name" ]; then
+        dmsetup remove "$error_device_name" 2>/dev/null || \
+        sudo dmsetup remove "$error_device_name" 2>/dev/null || true
+    fi
+    
+    # Remove loop device
+    if [ -n "$loop_device" ] && [ -b "$loop_device" ]; then
+        losetup -d "$loop_device" 2>/dev/null || true
+    fi
+    
+    # Remove backing file
+    if [ -n "$backing_file" ] && [ -f "$backing_file" ]; then
+        rm -f "$backing_file" 2>/dev/null || true
+    fi
+    
+    # Clean up temp files
+    rm -f "$LOG_DIR/dm_table.txt" "$LOG_DIR/error_device_name.txt" \
+          "$LOG_DIR/loop_device.txt" "$LOG_DIR/backing_file.txt" 2>/dev/null || true
+    
+    print_success "Error device cleanup completed"
+}
+
+# Run IO test on error device
+run_error_device_io_test() {
+    print_info "Starting IO test on error device to trigger guaranteed blk_update_request errors..."
+    
+    if [ -z "${ERROR_TEST_DIR:-}" ]; then
+        print_warning "Error test directory not set, skipping error device IO test"
+        return 1
+    fi
+    
+    # Create a test file that spans the error sectors
+    # The error sectors are at 1000-1099 (512-byte sectors)
+    # That's 51200-56319 bytes offset
+    # We'll create a 1MB file to ensure we hit error sectors
+    
+    local test_file="${ERROR_TEST_DIR}/error_test_file"
+    
+    # Write test pattern to file
+    dd if=/dev/urandom of="$test_file" bs=1M count=10 2>/dev/null || {
+        print_warning "Failed to create test file on error device"
+        return 1
+    }
+    
+    # Run fio test specifically targeting the error sectors
+    # Use direct IO to bypass cache and ensure we hit the device
+    $FIO_CMD --name=error_device_test --filename="$test_file" --ioengine=posixaio --direct=1 \
+        --bs=4k --iodepth=16 --size=10M --offset=50000 --rw=randrw --rwmixread=50 \
+        --numjobs=4 --runtime="$((RUN_TIME / 2))" --time_based --group_reporting \
+        --output="$LOG_DIR/error_device_fio.log" --output-format=json &
+    ERROR_FIO_PID=$!
+    
+    echo $ERROR_FIO_PID > "$LOG_DIR/error_fio.pid"
+    print_success "Error device IO test started (PID: $ERROR_FIO_PID)"
+    print_info "This test specifically targets sectors 1000-1099 which are configured to return I/O errors"
+    print_info "This should guarantee blk_update_request: IO error messages in dmesg"
+    
+    return 0
+}
+
 # Run all tests in parallel
 run_all_tests_parallel() {
     print_info "Starting JBD2 lock contention stress test..."
@@ -323,6 +569,10 @@ run_all_tests_parallel() {
     # Clean up old test files
     cleanup_test_dir
     
+    # Setup device-mapper error device for guaranteed IO errors
+    local error_device_available=false
+    setup_error_device && error_device_available=true
+    
     # Start system monitoring
     start_monitoring
     
@@ -332,6 +582,13 @@ run_all_tests_parallel() {
     
     file_operations_test
     sleep 2
+    
+    # Run continuous IO test, using error device if available
+    if [ "$error_device_available" = "true" ] && [ -n "${ERROR_TEST_DIR:-}" ]; then
+        print_info "Using error device for IO tests at ${ERROR_TEST_DIR}"
+        # Run additional test specifically on error device
+        run_error_device_io_test
+    fi
     
     continuous_io_test
     sleep 2
@@ -364,6 +621,11 @@ run_all_tests_parallel() {
     
     # Stop test processes
     stop_all_tests
+    
+    # Cleanup error device
+    if [ "$error_device_available" = "true" ]; then
+        cleanup_error_device
+    fi
 }
 
 # Stop all tests
@@ -527,6 +789,9 @@ cleanup() {
     
     # Stop all child processes
     stop_all_tests
+    
+    # Cleanup error device if it exists
+    cleanup_error_device
     
     # Stop monitoring processes
     pkill -f "sar" 2>/dev/null || true
