@@ -713,7 +713,7 @@ $(sar -d -f "$LOG_DIR/system/disk.log" 2>/dev/null | tail -5 || echo "Disk data 
 $(tail -20 "$LOG_DIR/kernel/dmesg_live.log" 2>/dev/null || echo "Kernel messages unavailable")
 
 === Test Conclusion ===
-$(if [ $lock_detections -gt 0 ]; then
+$(if [ "${lock_detections:-0}" -gt 0 ]; then
     echo "✓ Successfully triggered JBD2 lock contention scenario"
     echo "  Detected ${lock_detections} lock wait events"
 else
@@ -724,19 +724,19 @@ else
     echo "  3. Kernel version may have fixed the issue"
 fi)
 
-$(if [ $kswapd_blocks -gt 0 ]; then
+$(if [ "${kswapd_blocks:-0}" -gt 0 ]; then
     echo "✓ Detected kswapd blocking events ${kswapd_blocks} times"
 else
     echo "✗ No kswapd blocking detected"
 fi)
 
-$(if [ $jbd2_activities -gt 0 ]; then
+$(if [ "${jbd2_activities:-0}" -gt 0 ]; then
     echo "✓ Detected JBD2 checkpoint activity ${jbd2_activities} times"
 else
     echo "✗ No JBD2 checkpoint activity detected"
 fi)
 
-$(if [ $blk_update_errors -gt 0 ]; then
+$(if [ "${blk_update_errors:-0}" -gt 0 ]; then
     echo "✓ SUCCESS: Triggered blk_update_request: IO error messages!"
     echo "  Detected ${blk_update_errors} blk_update_request IO errors"
 else
@@ -749,7 +749,7 @@ else
     echo "  4. Testing on different storage hardware"
 fi)
 
-$(if [ $io_errors -gt 0 ]; then
+$(if [ "${io_errors:-0}" -gt 0 ]; then
     echo "✓ Detected ${io_errors} general IO errors"
 else
     echo "✗ No general IO errors detected"
@@ -776,7 +776,7 @@ EOF
     echo -e "\n${GREEN}=== Test Completed ===${NC}"
     echo "Detailed logs available at: $LOG_DIR"
     echo "Test report: $REPORT_FILE"
-    if [ $blk_update_errors -gt 0 ]; then
+    if [ "${blk_update_errors:-0}" -gt 0 ]; then
         echo -e "${GREEN}✓ Successfully triggered blk_update_request: IO error messages!${NC}"
     else
         echo -e "${YELLOW}⚠ No blk_update_request IO errors detected${NC}"
